@@ -2,7 +2,7 @@ nsf:
   type: http
   nsfServer: 'http://nsf-server.qz.sf.163.com'
   application:
-    name: ycg-demo-viewer
+    name: yyd-demo-viewer
     version: 0.0.1
     projectCode: poc
     envCode: prod
