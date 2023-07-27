@@ -21,6 +21,7 @@ RUN mkdir -p /opt/apm && cd /opt/apm && \
     echo "collector.backend_service=apm-otel-collector.qz.sf.163.com:11800" >> agent.config && \
     echo "agent.authentication=MjAtdGVzdA==" >> agent.config && \
     echo "agent.service_name=yyd-demo-stock-advisor" >> agent.config
+
 #add run command
 ADD ./nsf-demo-stock-advisor/run.sh  /opt/nsf/
 RUN chmod a+x /opt/nsf/run.sh
