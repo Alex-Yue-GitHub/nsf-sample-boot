@@ -5,18 +5,24 @@ ENV TZ=Asia/Shanghai LANG=C.UTF-8 LANGUAGE=C.UTF-8 LC_ALL=C.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
-RUN mkdir -p /opt/nsf && mkdir -p /opt/apm
+#add application jar
+ADD ./nsf-demo-stock-advisor/target/*.jar /opt/nsf/
 
-RUN cd /opt/apm && wget http://console.qz.sf.163.com/download/napm/skywalking-napm-bin-8.10.0-latest.tar.gz -O skywalking-napm-bin-8.10.0-latest.tar.gz && \
-tar zxvf skywalking-napm-bin-8.10.0-latest.tar.gz
-
-
+#add nsf agent jar and config file
 RUN mkdir -p /opt/nsf && cd /opt/nsf && \
-    wget "http://console.qz.sf.163.com/download/nsf/nsf-agent-fat.jar" -O nsf-agent.jar
-    
-ADD ./*/target/nsf*.jar /app.jar
+    wget "http://console.qz.sf.163.com/download/nsf/nsf-boot.jar" -O nsf-agent.jar
+ADD ./nsf-demo-stock-advisor/nsf.yml /opt/nsf/nsf.yml
 
-ADD ./*/target/classes/nsf.yml /opt/nsf/
+#add apm agent jar and config file
+RUN mkdir -p /opt/apm && cd /opt/apm && \
+    wget "http://console.qz.sf.163.com/download/napm/skywalking-napm-bin-8.10.0-latest.tar.gz" -O skywalking-napm-bin-8.10.0-latest.tar.gz && \
+    tar zxvf skywalking-napm-bin-8.10.0-latest.tar.gz && \
+    cd ./skywalking-napm-bin-8.10.0-latest/agent/config && \
+    echo "collector.backend_service=apm-otel-collector.qz.sf.163.com:11800" >> agent.config && \
+    echo "agent.authentication=MjAtdGVzdA==" >> agent.config && \
+    echo "agent.service_name=yyd-demo-stock-advisor" >> agent.config
+#add run command
+ADD ./nsf-demo-stock-advisor/run.sh  /opt/nsf/
+RUN chmod a+x /opt/nsf/run.sh
 
-
-ENTRYPOINT ["java","-Dserver.port=8080","-Dstock_viewer_url=http://stock-viewer-wanchu", "-Dstock_provider_url=http://stock-provider-wanchu", "-Dstock_advisor_url=http://stock-advisor-wanchu", "-Dnsf.prometheus.enable=true","-javaagent:/opt/nsf/nsf-agent.jar=nsf","-javaagent:/opt/apm/skywalking-napm-bin-8.10.0-latest/agent/skywalking-agent.jar","-Dskywalking_config=opt/apm/skywalking-napm-bin-8.10.0-latest/agent/config/agent.config","-jar","/app.jar"]
+CMD ["/opt/nsf/run.sh"]
