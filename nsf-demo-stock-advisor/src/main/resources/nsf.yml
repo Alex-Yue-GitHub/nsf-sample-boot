@@ -1,0 +1,13 @@
+nsf:
+  type: http
+  nsfServer: 'http://nsf-server.qz.sf.163.com'
+  application:
+    name: yyd-demo-stock-advisor
+    version: 0.0.1
+    projectCode: common
+    envCode: prod
+    mark: ""
+    group: default
+    tags: []
+  manager:
+    patterns: []
