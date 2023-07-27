@@ -2,14 +2,12 @@ nsf:
   type: http
   nsfServer: 'http://nsf-server.qz.sf.163.com'
   application:
-    name: yyd-demo-viewer
+    name: yyd-demo-stock-viewer
     version: 0.0.1
-    projectCode: poc
+    projectCode: common
     envCode: prod
     mark: ""
     group: default
     tags: []
   manager:
-    patterns:
-      -
-        className: ""
+    patterns: []
