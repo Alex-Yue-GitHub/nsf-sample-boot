@@ -4,7 +4,6 @@ ENV TZ=Asia/Shanghai LANG=C.UTF-8 LANGUAGE=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-
 #add application jar
 ADD ./nsf-demo-stock-advisor/target/*.jar /opt/nsf/
 
