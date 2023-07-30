@@ -3,8 +3,6 @@ FROM openjdk:8
 ENV TZ=Asia/Shanghai LANG=C.UTF-8 LANGUAGE=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-
 #add application jar
 ADD ./nsf-demo-stock-viewer/target/*.jar /opt/nsf/
 
@@ -23,6 +21,7 @@ RUN mkdir -p /opt/apm && cd /opt/apm && \
     echo "collector.backend_service=apm-otel-collector.qz.sf.163.com:11800" >> agent.config && \
     echo "agent.authentication=MjAtdGVzdA==" >> agent.config && \
     echo "agent.service_name=yyd-demo-stock-viewer" >> agent.config
+
 
 #add run command
 ADD ./nsf-demo-stock-viewer/run.sh  /opt/nsf/
