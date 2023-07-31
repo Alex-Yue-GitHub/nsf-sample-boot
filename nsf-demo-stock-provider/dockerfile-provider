@@ -22,7 +22,6 @@ RUN mkdir -p /opt/apm && cd /opt/apm && \
     echo "agent.authentication=MjAtdGVzdA==" >> agent.config && \
     echo "agent.service_name=yyd-demo-stock-provider" >> agent.config
 
-
 #add run command
 ADD ./nsf-demo-stock-provider/run.sh  /opt/nsf/
 RUN chmod a+x /opt/nsf/run.sh
